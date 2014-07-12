@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import CloudKit
 
 class MasterViewController: UITableViewController {
 
-    var objects = [Task]()
+    var todoDatabase = CKContainer.defaultContainer().publicCloudDatabase
+//    var currentUser = CKRecord
+    var tasks = [CKRecord]()
+    
     var myString: String {
         get {
             return "test"
@@ -18,10 +22,6 @@ class MasterViewController: UITableViewController {
         set {
             self.myString = newValue
         }
-    }
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
     }
 
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ class MasterViewController: UITableViewController {
         let submitAction = UIAlertAction(title: "OK", style: .Default) { action in
 
             let textField = alert.textFields[0] as UITextField
-            self.addTask(Task(name: textField.text))
+            self.addTask(textField.text)
             alert.dismissViewControllerAnimated(true) {}
         }
         alert.addAction(submitAction)
@@ -59,10 +59,23 @@ class MasterViewController: UITableViewController {
         presentViewController(alert, animated: true) {}
     }
     
-    func addTask(task: Task) {
-        objects += task
-        let indexPath = NSIndexPath(forRow: objects.count - 1, inSection: 0)
-        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+    func addTask(task: String) {
+        
+        var newTask = CKRecord(recordType: "ToDo")
+        newTask.setObject(task, forKey: "task")
+        todoDatabase.saveRecord(newTask) {
+            (CKRecord record, NSError error) in
+            self.tasks += record
+            let indexPath = NSIndexPath(forRow: self.tasks.count - 1, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+
+        }
+//        todoDatabase.saveRecord(newTask) {
+//            CKRecord record in
+//            
+//        }
+//        newTask["task"] = task
+//        tasks += task
     }
 
     // #pragma mark - Segues
@@ -70,7 +83,7 @@ class MasterViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             let indexPath = self.tableView.indexPathForSelectedRow()
-            let object = objects[indexPath.row]
+            let object = tasks[indexPath.row]
             (segue.destinationViewController as DetailViewController).detailItem = object
         }
     }
@@ -82,13 +95,13 @@ class MasterViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return objects.count
+        return tasks.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-        let object = objects[indexPath.row]
+        let object = tasks[indexPath.row]
         cell.textLabel.text = object.description
         return cell
     }
@@ -100,7 +113,7 @@ class MasterViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            objects.removeAtIndex(indexPath.row)
+            tasks.removeAtIndex(indexPath.row)
 //            objects.removeObjectAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {

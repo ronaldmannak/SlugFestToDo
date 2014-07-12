@@ -13,7 +13,6 @@
 		F8DC73591971AD1D00E6CCD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8DC73571971AD1D00E6CCD3 /* Main.storyboard */; };
 		F8DC735B1971AD1D00E6CCD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8DC735A1971AD1D00E6CCD3 /* Images.xcassets */; };
 		F8DC73671971AD1D00E6CCD3 /* ToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DC73661971AD1D00E6CCD3 /* ToDoTests.swift */; };
-		F8DC73731971B40500E6CCD3 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC73721971B40500E6CCD3 /* Task.m */; };
 		F8DC73A51971D65B00E6CCD3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DC73A41971D65B00E6CCD3 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,9 +37,6 @@
 		F8DC73601971AD1D00E6CCD3 /* ToDoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToDoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8DC73651971AD1D00E6CCD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F8DC73661971AD1D00E6CCD3 /* ToDoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTests.swift; sourceTree = "<group>"; };
-		F8DC73701971B40400E6CCD3 /* ToDo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToDo-Bridging-Header.h"; sourceTree = "<group>"; };
-		F8DC73711971B40500E6CCD3 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
-		F8DC73721971B40500E6CCD3 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		F8DC73A31971D62800E6CCD3 /* ToDo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ToDo.entitlements; sourceTree = "<group>"; };
 		F8DC73A41971D65B00E6CCD3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -86,14 +82,11 @@
 			isa = PBXGroup;
 			children = (
 				F8DC73511971AD1D00E6CCD3 /* AppDelegate.swift */,
-				F8DC73711971B40500E6CCD3 /* Task.h */,
-				F8DC73721971B40500E6CCD3 /* Task.m */,
 				F8DC73531971AD1D00E6CCD3 /* MasterViewController.swift */,
 				F8DC73551971AD1D00E6CCD3 /* DetailViewController.swift */,
 				F8DC73571971AD1D00E6CCD3 /* Main.storyboard */,
 				F8DC735A1971AD1D00E6CCD3 /* Images.xcassets */,
 				F8DC734F1971AD1D00E6CCD3 /* Supporting Files */,
-				F8DC73701971B40400E6CCD3 /* ToDo-Bridging-Header.h */,
 			);
 			path = ToDo;
 			sourceTree = "<group>";
@@ -230,7 +223,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F8DC73731971B40500E6CCD3 /* Task.m in Sources */,
 				F8DC73561971AD1D00E6CCD3 /* DetailViewController.swift in Sources */,
 				F8DC73541971AD1D00E6CCD3 /* MasterViewController.swift in Sources */,
 				F8DC73521971AD1D00E6CCD3 /* AppDelegate.swift in Sources */,
@@ -357,7 +349,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ToDo/ToDo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -375,7 +367,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "ToDo/ToDo-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
