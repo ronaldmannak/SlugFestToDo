@@ -10,7 +10,6 @@ import UIKit
 
 class MasterViewController: UITableViewController {
 
-//    var objects = NSMutableArray()
     var objects = [Task]()
     var myString: String {
         get {
@@ -58,12 +57,6 @@ class MasterViewController: UITableViewController {
         alert.addAction(submitAction)
         
         presentViewController(alert, animated: true) {}
-                
-//        objects += Task(name: "Test")
-////        objects.bridgeToObjectiveC()
-////        objects.insertObject(NSDate.date(), atIndex: 0)
-//        let indexPath = NSIndexPath(forRow: objects.count - 1, inSection: 0)
-//        self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     func addTask(task: Task) {

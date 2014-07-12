@@ -14,6 +14,7 @@
 		F8DC735B1971AD1D00E6CCD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F8DC735A1971AD1D00E6CCD3 /* Images.xcassets */; };
 		F8DC73671971AD1D00E6CCD3 /* ToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8DC73661971AD1D00E6CCD3 /* ToDoTests.swift */; };
 		F8DC73731971B40500E6CCD3 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F8DC73721971B40500E6CCD3 /* Task.m */; };
+		F8DC73A51971D65B00E6CCD3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DC73A41971D65B00E6CCD3 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		F8DC73701971B40400E6CCD3 /* ToDo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ToDo-Bridging-Header.h"; sourceTree = "<group>"; };
 		F8DC73711971B40500E6CCD3 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		F8DC73721971B40500E6CCD3 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		F8DC73A31971D62800E6CCD3 /* ToDo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ToDo.entitlements; sourceTree = "<group>"; };
+		F8DC73A41971D65B00E6CCD3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +50,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8DC73A51971D65B00E6CCD3 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +101,8 @@
 		F8DC734F1971AD1D00E6CCD3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F8DC73A31971D62800E6CCD3 /* ToDo.entitlements */,
+				F8DC73A41971D65B00E6CCD3 /* CloudKit.framework */,
 				F8DC73501971AD1D00E6CCD3 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -168,6 +174,12 @@
 				TargetAttributes = {
 					F8DC734B1971AD1D00E6CCD3 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = K9F98872CQ;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					F8DC735F1971AD1D00E6CCD3 = {
 						CreatedOnToolsVersion = 6.0;
@@ -338,9 +350,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ToDo/ToDo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ToDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ToDo/ToDo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -352,9 +368,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ToDo/ToDo.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = ToDo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ToDo/ToDo-Bridging-Header.h";
 			};
 			name = Release;
