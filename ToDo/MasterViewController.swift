@@ -42,6 +42,7 @@ class MasterViewController: UITableViewController {
         let alert = UIAlertController(title: "New Task", message: "", preferredStyle: .Alert)
         
         alert.addTextFieldWithConfigurationHandler { textField in textField.placeholder = "Buy milk" }
+        alert.addTextFieldWithConfigurationHandler { textField in textField.placeholder = "Me" }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .Default) { action in
             alert.dismissViewControllerAnimated(true, completion:{})
@@ -50,8 +51,9 @@ class MasterViewController: UITableViewController {
         
         let submitAction = UIAlertAction(title: "OK", style: .Default) { action in
 
-            let textField = alert.textFields[0] as UITextField
-            self.addTask(textField.text)
+            let taskField = alert.textFields[0] as UITextField
+            let assignToField = alert.textFields[1] as UITextField
+            self.addTask(taskField.text, assignTo:assignToField.text)
             alert.dismissViewControllerAnimated(true) {}
         }
         alert.addAction(submitAction)
@@ -59,10 +61,16 @@ class MasterViewController: UITableViewController {
         presentViewController(alert, animated: true) {}
     }
     
-    func addTask(task: String) {
+    func addTask(task: String, assignTo:NSString?) {
         
         var newTask = CKRecord(recordType: "ToDo")
         newTask.setObject(task, forKey: "task")
+        if let assignToString = assignTo {
+            newTask.setObject(assignToString, forKey: "assignedTo")
+        } else {
+            // assign task to self
+            newTask.setObject("ronald", forKey: "assignedTo")
+        }
         todoDatabase.saveRecord(newTask) {
             (CKRecord record, NSError error) in
             self.tasks += record
