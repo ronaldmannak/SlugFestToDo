@@ -56,13 +56,15 @@ class MasterViewController: UITableViewController {
 
         var query = CKQuery(recordType:"ToDo", predicate: predicate)
         todoDatabase.performQuery(query, inZoneWithID: nil, completionHandler:{
-        records, error in
-        if error {
-            println(error.localizedDescription)
-        } else {
-            self.tasks = records as [CKRecord]
-            self.tableView.reloadData()
-        }
+            records, error in
+            if error {
+                println(error.localizedDescription)
+            } else {
+                self.tasks = records as [CKRecord]
+//                records.map(<#transform: (T) -> U#>)
+//                println("fetched: " + self.task)
+                self.tableView.reloadData()
+            }
         
         })
     }
@@ -141,9 +143,9 @@ class MasterViewController: UITableViewController {
 
         let object = tasks[indexPath.row] as CKRecord
             
-            if let task = object.objectForKey("task") as String? {
-    cell.textLabel.text = task
-            }
+        if let task = object.objectForKey("task") as String? {
+            cell.textLabel.text = task
+        }
 //        cell.textLabel.text = object.objectForKey("task") as String
             
 //        if let created = object.objectForKey("createdBy") as String? {
