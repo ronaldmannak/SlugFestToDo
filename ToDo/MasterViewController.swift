@@ -46,13 +46,27 @@ class MasterViewController: UITableViewController {
 
         let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
         self.navigationItem.rightBarButtonItem = addButton
+            
+        self.fetchListFromServer()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+    // Database
+    
+    func fetchListFromServer() {
 
+        var query = CKQuery(recordType:"ToDo", predicate: predicate)
+        todoDatabase.performQuery(query, inZoneWithID: nil, completionHandler:{
+        records, error in
+        if error {
+            println(error.localizedDescription)
+        } else {
+            self.tasks = records as [CKRecord]
+            self.tableView.reloadData()
+        }
+        
+        })
+    }
+    
     func insertNewObject(sender: AnyObject) {
         let alert = UIAlertController(title: "New Task", message: "", preferredStyle: .Alert)
         
@@ -79,6 +93,7 @@ class MasterViewController: UITableViewController {
     func addTask(task: String, assignTo:String) {
         
         var newTask = CKRecord(recordType: "ToDo")
+        newTask.setObject(NSDate(), forKey: "created")
         newTask.setObject(task, forKey: "task")
         if countElements(assignTo) > 0 {
             newTask.setObject(assignTo, forKey: "assignedTo")
@@ -97,7 +112,7 @@ class MasterViewController: UITableViewController {
             self.tasks += record
             let indexPath = NSIndexPath(forRow: self.tasks.count - 1, inSection: 0)
             self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
+            self.fetchListFromServer()
         }
     }
 
@@ -124,8 +139,19 @@ class MasterViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
 
-        let object = tasks[indexPath.row]
-        cell.textLabel.text = object.description
+        let object = tasks[indexPath.row] as CKRecord
+            
+            if let task = object.objectForKey("task") as String? {
+    cell.textLabel.text = task
+            }
+//        cell.textLabel.text = object.objectForKey("task") as String
+            
+//        if let created = object.objectForKey("createdBy") as String? {
+//            cell.detailTextLabel.text = created
+//        } else {
+//            cell.detailTextLabel.text = ""
+//        }
+        
         return cell
     }
 
@@ -142,4 +168,9 @@ class MasterViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
     }
+    
+    @IBAction func refresh(sender: UIBarButtonItem) {
+            self.fetchListFromServer()
+    }
+
 }
