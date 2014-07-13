@@ -54,16 +54,21 @@ class MasterViewController: UITableViewController {
     
     func fetchListFromServer() {
 
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
         var query = CKQuery(recordType:"ToDo", predicate: predicate)
         todoDatabase.performQuery(query, inZoneWithID: nil, completionHandler:{
             records, error in
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
             if error {
                 println(error.localizedDescription)
             } else {
                 self.tasks = records as [CKRecord]
 //                records.map(<#transform: (T) -> U#>)
 //                println("fetched: " + self.task)
-                self.tableView.reloadData()
+                NSOperationQueue.mainQueue().addOperationWithBlock {
+                    self.tableView.reloadData()
+                }
             }
         
         })
@@ -109,12 +114,17 @@ class MasterViewController: UITableViewController {
 //            // assign task to self
 //
 //        }
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
         todoDatabase.saveRecord(newTask) {
             (CKRecord record, NSError error) in
-            self.tasks += record
-            let indexPath = NSIndexPath(forRow: self.tasks.count - 1, inSection: 0)
-            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            self.fetchListFromServer()
+            
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
+//            self.tasks += record
+//            let indexPath = NSIndexPath(forRow: self.tasks.count - 1, inSection: 0)
+//            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            NSOperationQueue.mainQueue().addOperationWithBlock {
+                self.fetchListFromServer()
+            }
         }
     }
 
