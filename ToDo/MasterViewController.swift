@@ -12,20 +12,35 @@ import CloudKit
 class MasterViewController: UITableViewController {
 
     var todoDatabase = CKContainer.defaultContainer().publicCloudDatabase
-//    var currentUser = CKRecord
+//    var currentUser: CKRecord
     var tasks = [CKRecord]()
-    
-    var myString: String {
-        get {
-            return "test"
-        }
-        set {
-            self.myString = newValue
-        }
-    }
+    var predicate: NSPredicate
+    var subscription: CKSubscription
+    var username = "ronald"
 
+    init(coder aDecoder: NSCoder!)
+    {
+        // Subscribe to server updates
+        predicate = NSPredicate(format: "assignedTo = %@", username)
+        subscription = CKSubscription(recordType: "ToDo", predicate: predicate, options: .FiresOnRecordCreation) //| .FiresOnRecordUpdate |.FiresOnRecordDeletion
+        var notificationInfo = CKNotificationInfo()
+        notificationInfo.alertLocalizationKey = "LOCAL_NOTIFICATION_KEY"
+        notificationInfo.soundName = "Party.aiff"
+        notificationInfo.shouldBadge = true
+        subscription.notificationInfo = notificationInfo
+        todoDatabase.saveSubscription(subscription) {
+            (subscription: CKSubscription!, error: NSError!) in
+            if error {
+                println(error)
+            }
+        }
+        
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
@@ -61,16 +76,22 @@ class MasterViewController: UITableViewController {
         presentViewController(alert, animated: true) {}
     }
     
-    func addTask(task: String, assignTo:NSString?) {
+    func addTask(task: String, assignTo:String) {
         
         var newTask = CKRecord(recordType: "ToDo")
         newTask.setObject(task, forKey: "task")
-        if let assignToString = assignTo {
-            newTask.setObject(assignToString, forKey: "assignedTo")
+        if countElements(assignTo) > 0 {
+            newTask.setObject(assignTo, forKey: "assignedTo")
         } else {
-            // assign task to self
-            newTask.setObject("ronald", forKey: "assignedTo")
+            newTask.setObject(username, forKey: "assignedTo")
         }
+        // UITextField always returns a String even when text is empty
+//        if let assignToString = assignTo {
+//            newTask.setObject(assignToString, forKey: "assignedTo")
+//        } else {
+//            // assign task to self
+//
+//        }
         todoDatabase.saveRecord(newTask) {
             (CKRecord record, NSError error) in
             self.tasks += record
@@ -78,12 +99,6 @@ class MasterViewController: UITableViewController {
             self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
         }
-//        todoDatabase.saveRecord(newTask) {
-//            CKRecord record in
-//            
-//        }
-//        newTask["task"] = task
-//        tasks += task
     }
 
     // #pragma mark - Segues
@@ -122,7 +137,6 @@ class MasterViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             tasks.removeAtIndex(indexPath.row)
-//            objects.removeObjectAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -40,7 +41,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(application: UIApplication!) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
+    
+    func application(application: UIApplication!, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]!) {
+        
+        let cloudKitNotification = CKNotification(fromRemoteNotificationDictionary: userInfo)
+        let alertBody = cloudKitNotification.alertBody;
+        
+        if cloudKitNotification.notificationType == .Query {
+            let queryNotification = cloudKitNotification as CKQueryNotification;
+            let recordID = queryNotification.recordID
+        }
+    }
 
 }
 

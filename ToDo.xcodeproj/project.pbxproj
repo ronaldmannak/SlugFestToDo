@@ -424,6 +424,7 @@
 				F8DC736C1971AD1D00E6CCD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F8DC736D1971AD1D00E6CCD3 /* Build configuration list for PBXNativeTarget "ToDoTests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +433,7 @@
 				F8DC736F1971AD1D00E6CCD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
